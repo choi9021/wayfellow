@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Wayfellow 치료자 대시보드</title>
+  <meta name="theme-color" content="#182032" />
+  <meta name="robots" content="noindex, nofollow" />
+  <!-- 이 페이지는 index.html(환자용 앱)과 별도의 독립된 페이지다 - 환자는 평소 이 페이지를
+       열 일이 없고, 치료자만 실제 이메일/비밀번호 계정(Supabase Auth)으로 로그인해서 쓴다.
+       환자 쪽은 여전히 회원가입 없이 코드만 입력한다(js/sync.js, supabase/schema.sql 참고). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.8/static/pretendard.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="therapist-body">
+  <header class="app-header">
+    <div class="app-header-row">
+      <div>
+        <h1>Wayfellow</h1>
+        <p class="app-subtitle">치료자 대시보드</p>
+      </div>
+      <button type="button" id="tp-logout-btn" class="help-btn" hidden>로그아웃</button>
+    </div>
+  </header>
+
+  <main class="app-main tp-main">
+    <!-- 설정 안 됨 안내 (js/supabase-config.js 비어있을 때) -->
+    <div id="tp-not-configured" class="records-section" hidden>
+      <h3>클라우드 동기화가 설정되지 않았습니다</h3>
+      <p class="placeholder-text">
+        <code>js/supabase-config.example.js</code>를 복사해 <code>js/supabase-config.js</code>로
+        저장하고, Supabase 프로젝트의 URL과 anon key를 채워 넣은 뒤 다시 열어주세요.
+        <code>supabase/schema.sql</code>도 Supabase SQL Editor에서 한 번 실행해야 합니다.
+      </p>
+    </div>
+
+    <!-- 로그인 / 회원가입 -->
+    <div id="tp-auth-view" class="records-section" hidden>
+      <h3 id="tp-auth-title">로그인</h3>
+      <p class="placeholder-text">치료자 전용 화면입니다. 환자는 이 페이지를 쓰지 않습니다.</p>
+
+      <label class="form-label" for="tp-email">이메일</label>
+      <input type="email" id="tp-email" placeholder="therapist@example.com" autocomplete="username" />
+
+      <label class="form-label" for="tp-password">비밀번호</label>
+      <input type="password" id="tp-password" placeholder="비밀번호" autocomplete="current-password" />
+
+      <p id="tp-auth-error" class="placeholder-text" style="color: var(--danger)" hidden></p>
+
+      <button type="button" id="tp-auth-submit-btn" class="btn">로그인</button>
+      <button type="button" id="tp-auth-toggle-btn" class="btn btn-outline">
+        계정이 없으신가요? 회원가입
+      </button>
+    </div>
+
+    <!-- 환자 목록 -->
+    <div id="tp-patient-list-view" hidden>
+      <div class="records-section">
+        <h3>내 환자</h3>
+        <p class="placeholder-text">
+          "새 환자 코드 발급"으로 코드를 만들어 환자에게 전달하세요. 환자가 Wayfellow 앱의
+          "환자 코드 입력" 화면에 그 코드를 넣고 설정에서 동기화를 켜면 여기 기록이 보입니다.
+        </p>
+        <button type="button" id="tp-new-patient-btn" class="btn">+ 새 환자 코드 발급</button>
+      </div>
+      <div id="tp-patient-list" class="tp-patient-list"></div>
+    </div>
+
+    <!-- 환자 상세 -->
+    <div id="tp-patient-detail-view" hidden>
+      <div class="screen-header">
+        <button type="button" id="tp-back-to-list-btn" class="back-btn" aria-label="목록으로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+        </button>
+        <h2 id="tp-detail-title">환자</h2>
+      </div>
+      <div id="tp-detail-content"></div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2/dist/umd/supabase.js" defer></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="js/therapist.js" defer></script>
+</body>
+</html>

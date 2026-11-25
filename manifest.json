@@ -1,0 +1,20 @@
+{
+  "name": "Wayfellow",
+  "short_name": "Wayfellow",
+  "description": "지속노출치료(PE) 회기 간 과제를 치료자와 함께 기록하고 진행하는 보조 도구",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#182032",
+  "theme_color": "#182032",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "assets/mascot-default.png",
+      "sizes": "400x400",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
